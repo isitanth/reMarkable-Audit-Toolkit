@@ -1,8 +1,8 @@
 # reMarkable Audit Toolkit
 
-**Author:** Anthony Chambet – Solution Architect  
-**Target:** reMarkable Paper Tablets (Linux-based)  
-**Purpose:** Modular and non-invasive security audit tool for embedded Linux systems.
+**Author:** Anthony Chambet
+**Target:** reMarkable Paper Tablets (Linux-based custom distro)  
+**Purpose:** Small entry level modular and non-invasive security audit tool for embedded Linux systems.
 
 ## Structure
 
@@ -43,11 +43,10 @@ OUTPUT_DIR=./output     # Change log output path
 - Network services and open ports
 - Firmware hash checks (if accessible)
 
-## Philosophy
+## Context
 
-This toolkit is made to be **transparent**, **modular**, and **non-destructive**. Perfect for embedded systems, field diagnostics, or initial compromise assessment.
-
----
+- I recently experimented with reMarkable devices, which expose root access over SSH — a bold and transparent design choice that provides direct insight into Linux-based systems. This capability serves as a practical entry point for exploring operating system internals, security primitives, and the interaction between kernel space and user space.
+- It allows to concrete ideas on how such devices could be improved — both in terms of everyday user experience and in supporting deeper internal testing/debugging.
 
 > Automate beautifully. Audit responsibly.
 
