@@ -1,77 +1,51 @@
-# velviaflow
+# reMarkable audit toolkit
 
-**Author:** Anthony Chambet  
-**Target:** Fujifilm SD cards (X-T series, macOS arm64)  
-**Purpose:** Terminal-first workflow utility for photographers. Creates a dedicated workspace for each run to ensure safe handling of photos/videos, with backup, stats, and cleanup features.  
-**Tested with:** Fujifilm X-T5
-
----
+**Author:** Anthony Chambet
+**Target:** reMarkable Paper Tablets (Linux-based custom distro)  
+**Purpose:** Small entry level modular and non-invasive security audit tool for embedded Linux systems.
 
 ## Structure
 
 ```
-velviaflow-c/
-├── Makefile             # Build rules (clang, C17, macOS arm64)
-├── LICENSE              # License information
-├── README.md            # Project documentation
-├── include/             # Public headers (cli.h, fsutil.h, media.h…)
-├── src/                 # Implementation files
-│   ├── main.c           # Entry point
-│   ├── cli.c            # CLI parser
-│   ├── ops.c            # Operations (backup, cleanup…)
-│   └── workspace.c      # Workspace management
-└── workdir/             # Auto-created runtime workspace
-    ├── inbox/           # Safe copy of SD files
-    ├── velviaSort/      # Sorted backups YYYY_MM/{rawPictures,rawRushs}
-    └── .velviaflow/     # Internal state/manifest
+remarkable-audit-toolkit/
+├── audit.sh              # Main orchestrator script
+├── config.cfg            # Optional configuration file
+├── modules/              # Modular audit checks
+├── tools/                # Space for optional binaries (e.g., busybox)
+└── output/               # Auto-created folder for log output
 ```
-
----
 
 ## Usage
 
-1. Insert your Fujifilm SD card (must contain `DCIM/`).  
-2. Run the CLI tool with the appropriate option:
+1. Copy the toolkit to a USB drive or remote filesystem.
+2. Mount the storage on your reMarkable device.
+3. SSH into the device and run:
+   ```bash
+   ./audit.sh
+   ```
+4. Logs will be saved in the `output/` directory with timestamped filenames.
 
-```bash
-velviaflow -check       # Detect SD card
-velviaflow -start       # Initialize workspace & copy files
-velviaflow -stats       # Show totals (photos, videos, size)
-velviaflow -backup      # Sort & copy files with manifest
-velviaflow -cleanup     # Safely remove inbox files
-velviaflow -v           # ASCII art banner + version info
+## Configuration (`config.cfg`)
+
+You can adjust runtime behavior by editing `config.cfg`:
+
+```ini
+AUDIT_LEVEL=deep        # Options: light, deep
+OUTPUT_DIR=./output     # Change log output path
 ```
 
-> Each run creates or reuses a **workspace** under `workdir/` to guarantee **safe-by-default operations** and prevent accidental data loss.
+## Audit Capabilities
 
----
-
-## Install & Build
-
-```bash
-make
-sudo make install   # Installs velviaflow into /usr/local/bin/
-```
-
-Dependencies:  
-- **clang** (C17)  
-- macOS ARM64 (M1/M2 tested)
-
----
-
-## Roadmap
-
-- Extended Fujifilm RAW/Video format detection.  
-- Automated pipelines for post-processing (renaming, metadata, conversion).  
-- Optional integration with external photo libraries / cloud backup.  
-- CI testing, portability to Linux.
-
----
+- Kernel and system info
+- Mount status and remount attempts
+- Privilege escalation vectors (SUID, world-writable paths)
+- Persistence mechanisms (systemd, rc.local, crontabs)
+- Network services and open ports
+- Firmware hash checks (if accessible)
 
 ## Context
 
-- Designed for photographers who want **fast, reliable, and safe SD card ingestion** directly from the terminal.  
-- The **workspace model** ensures that original media is never touched until explicitly backed up and confirmed via manifest.  
-- Inspired by the principle: *“Automate safely. Process your picture with ease.”*
+- I recently experimented with reMarkable devices, which expose root access over SSH — a bold and transparent design choice that provides direct insight into Linux-based systems. This capability serves as a practical entry point for exploring operating system internals, security primitives, and the interaction between kernel space and user space.
+- It allows to concrete ideas on how such devices could be improved — both in terms of everyday user experience and in supporting deeper internal testing/debugging.
 
----
+> Automate beautifully. Audit responsibly.
