@@ -34,7 +34,7 @@ AUDIT_LEVEL=deep        # Options: light, deep
 OUTPUT_DIR=./output     # Change log output path
 ```
 
-## Audit Capabilities
+## Audit capabilities
 
 - Kernel and system info
 - Mount status and remount attempts
