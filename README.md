@@ -1,4 +1,4 @@
-# reMarkable Audit Toolkit
+# reMarkable audit toolkit
 
 **Author:** Anthony Chambet
 **Target:** reMarkable Paper Tablets (Linux-based custom distro)  
